@@ -1,0 +1,83 @@
+html, body {
+  margin:0;
+  padding:0;
+  height: 100%;
+}
+
+.tag {
+  margin-right: 0.2rem !important;
+}
+
+#contains-all {
+  min-height:100%;
+  position:relative;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8rem;
+  padding-bottom: 0rem;
+}
+
+.hero.has-image-bg {
+  color: #fff;
+  background-position: 10%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #b8c6d0;
+}
+
+.white {
+  color: #fff;
+}
+
+#join-link {
+  color: #fff;
+}
+
+#join-link:hover {
+  color: #03A9F4;
+}
+
+.box {
+  margin-bottom: 1.5rem;
+}
+
+#body {
+  padding-bottom: 8rem;
+}
+
+.input {
+  margin-top: 0.2rem! important;
+  margin-bottom: 0.5rem !important
+}
+
+.tag {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.is-success {
+  background-color: #01256e !important;
+  background: #01256e !important;
+}
+
+a:hover{
+  background-color: white !important;
+  background: white !important;
+  color: #01256e !important;
+}
+
+.is-danger {
+  background-color: #95001a !important;
+  background: #95001a !important;
+  color: white !important;
+  border-color: #95001a !important;
+}
+
+.is-light:hover {
+  color: #01256e !important;
+}
