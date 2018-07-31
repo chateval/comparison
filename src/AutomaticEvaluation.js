@@ -22,7 +22,7 @@ class AutomaticEvaluation extends Component {
         <div className="card">
           <div className="card-content">
             <h1 className="title"> {this.props.model_name} </h1>
-            <h2 className="subtitle"> set </h2>
+            <h2 className="subtitle"> Evaluation Dataset </h2>
             <div className="content">
               <table className="table is-bordered">
                 <thead>
@@ -31,8 +31,8 @@ class AutomaticEvaluation extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td> <a href="{% url 'splash' %}#{{ auto_eval.id }}"> </a>  </td>
-                    <td> </td>
+                    <td> <a href=""> </a> Metric </td>
+                    <td> Value </td>
                   </tr>
                 </tbody>
               </table>
