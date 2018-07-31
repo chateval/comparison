@@ -6,7 +6,8 @@ class AutomaticEvaluation extends Component {
     super(props)
 
     this.state = {
-      automatic_evaluations: []
+      automatic_evaluations: [],
+      auto_evals: []
     }
   }
 
@@ -15,8 +16,16 @@ class AutomaticEvaluation extends Component {
       this.setState({'auto_evals': response.data.evaluations[0].auto_evals, 'evalset': response.data.evaluations[0].evalset})
     });
   }
+  
 
   render() {
+    const AutomaticEvaluations = Array.from(this.state.auto_evals).map(evaluation => 
+      <tr>
+        <td> <a href=""> </a> {evaluation.name} </td>
+        <td> {evaluation.value} </td>
+      </tr>
+    );
+
     return (
       <div className="column is-half">
         <div className="card">
@@ -30,10 +39,7 @@ class AutomaticEvaluation extends Component {
                   <th>Value</th>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td> <a href=""> </a> Metric </td>
-                    <td> Value </td>
-                  </tr>
+                  {AutomaticEvaluations}
                 </tbody>
               </table>
             </div>
