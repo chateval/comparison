@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import AutomaticEvaluation from './AutomaticEvaluation';
 const axios = require('axios');
 
-class App extends Component {
+class Comparisons extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       all_models: [],
-      current_models: new Set(),
+      current_models: new Set()
     }
   }
 
@@ -17,11 +17,6 @@ class App extends Component {
       this.setState({'all_models': response.data.models})
     });
   }
-
-  clear = () => {
-    this.setState({ current_models: new Set() });
-  }
-
 
   render() {
     const AllModelTags = Array.from(this.state.all_models).map(model =>  
@@ -42,13 +37,13 @@ class App extends Component {
         <div className="tabs is-boxed">
           <ul>
             <li className="is-active">
-              <a>
+              <a href="/">
                 <span className="icon is-small"><i className="fas fa-robot" aria-hidden="true"></i></span>
                 <span>Automatic Evaluations</span>
               </a>
             </li>
-            <li>
-              <a>
+            <li className="" onClick={this.setTab}>
+              <a href="/conversations">
                 <span className="icon is-small"><i className="fas fa-comments" aria-hidden="true"></i></span>
                 <span>Conversations</span>
               </a>
@@ -60,14 +55,13 @@ class App extends Component {
             <article className="message">
               <div className="message-header is-success">
                 <p>Currently comparing:</p>
-                <button className="delete" onClick={this.clear} aria-label="delete"></button>
+                <button className="delete" onClick={() => this.setState({ current_models: new Set() })} aria-label="delete"></button>
               </div>
               <div className="message-body">
               {CurrentModelTags}
               </div>
             </article>
             <h2> All Models: </h2> {AllModelTags}
-
             <div className="columns is-multiline">
               {AutomaticEvaluations}
             </div>
@@ -78,4 +72,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Comparisons;

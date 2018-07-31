@@ -1,7 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
+import Conversations from './Conversations';
+import Comparisons from './Comparisons';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const Routes = () => (
+    <Router>
+      <div>
+        <Route exact path="/" component={Comparisons}/>
+        <Route exact path="/conversations" component={Conversations}/>
+      </div>
+    </Router>
+  )
+
+ReactDOM.render(<Routes />, document.getElementById('root'));
 registerServiceWorker();

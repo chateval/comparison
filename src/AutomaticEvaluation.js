@@ -16,7 +16,6 @@ class AutomaticEvaluation extends Component {
       this.setState({'auto_evals': response.data.evaluations[0].auto_evals, 'evalset': response.data.evaluations[0].evalset})
     });
   }
-  
 
   render() {
     const AutomaticEvaluations = Array.from(this.state.auto_evals).map(evaluation => 
