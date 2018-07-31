@@ -18,6 +18,11 @@ class App extends Component {
     });
   }
 
+  clear = () => {
+    this.setState({ current_models: new Set() });
+  }
+
+
   render() {
     const AllModelTags = Array.from(this.state.all_models).map(model =>  
       <span className="tag is-light" onClick={() => this.setState({ current_models: this.state.current_models.add(model)})} key={model.model_id}> {model.name} </span>
@@ -55,6 +60,7 @@ class App extends Component {
             <article className="message">
               <div className="message-header is-success">
                 <p>Currently comparing:</p>
+                <button className="delete" onClick={this.clear} aria-label="delete"></button>
               </div>
               <div className="message-body">
               {CurrentModelTags}
