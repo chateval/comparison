@@ -14,6 +14,10 @@ class AutomaticEvaluation extends Component {
     axios.get(process.env.REACT_APP_API_LOCATION + '/automatic_evaluations?model_id=' + this.props.model_id).then(response => {
       this.setState({'evaluations': response.data.evaluations})
     });
+    
+    axios.get(process.env.REACT_APP_API_LOCATION + '/automatic_evaluations?model_id=' + this.props.model_id).then(response => {
+      this.setState({'evaluations': response.data.evaluations})
+    });
   }
 
   renderEvaluation(evaluation) {

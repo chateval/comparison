@@ -30,6 +30,10 @@ html, body {
   background-color: #b8c6d0;
 }
 
+.vmargin {
+  margin-bottom: 0.5rem;
+}
+
 .white {
   color: #fff;
 }

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import Select from 'react-select'
+import makeAnimated from 'react-select/lib/animated';
 import AutomaticEvaluation from './AutomaticEvaluation';
 const axios = require('axios');
 
 class Comparisons extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleEvaluationDatasetChange = this.handleEvaluationDatasetChange.bind(this);
+    this.handleModelChange = this.handleModelChange.bind(this);
 
     this.state = {
       all_models: [],
@@ -14,25 +18,40 @@ class Comparisons extends Component {
 
   componentWillMount() {
     axios.get(process.env.REACT_APP_API_LOCATION + '/models').then(response => {
-      this.setState({'all_models': response.data.models})
+      let options = [];
+      response.data.models.forEach(model => {
+        options.push({ 'value': model.model_id, 'label': model.name})
+      });
+
+      this.setState({'model_options': options})
     });
   }
 
+  handleEvaluationDatasetChange = (selectedOption) => {
+    this.setState({ evalset: selectedOption.value });
+  }
+
+  handleModelChange = (options) => {
+    this.setState({ current_models: options });
+    console.log(this.state.current_models)
+  }
+
   render() {
-    const AllModelTags = Array.from(this.state.all_models).map(model =>  
-      <span className="tag is-light" onClick={() => this.setState({ current_models: this.state.current_models.add(model)})} key={model.model_id}> {model.name} </span>
-    );
-
-    const CurrentModelTags = Array.from(this.state.current_models).map(model => 
-      <span className="tag is-success" key={model.model_id}> {model.name} </span>
-    );
-
     const AutomaticEvaluations = Array.from(this.state.current_models).map(model =>
-      <AutomaticEvaluation key={model.model_id} model_name={model.name} model_id={model.model_id} />
+      <AutomaticEvaluation key={model.value} model_name={model.label} model_id={model.value} />
     );
 
     return (
       <div className="container">
+        <br />
+        <Select
+          closeMenuOnSelect={false}
+          components={makeAnimated()}
+          isMulti
+          placeholder="Models"
+          options={this.state.model_options}
+          onChange={this.handleModelChange}
+        />
         <br />
         <div className="tabs is-boxed">
           <ul>
@@ -52,16 +71,6 @@ class Comparisons extends Component {
         </div>
         <div className="columns">
           <div className="column">
-            <article className="message">
-              <div className="message-header is-success">
-                <p>Currently comparing:</p>
-                <button className="delete" onClick={() => this.setState({ current_models: new Set() })} aria-label="delete"></button>
-              </div>
-              <div className="message-body">
-              {CurrentModelTags}
-              </div>
-            </article>
-            <h2> All Models: </h2> {AllModelTags}
             <div className="columns is-multiline">
               {AutomaticEvaluations}
             </div>

@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
-import Conversations from './Conversations';
-import Comparisons from './Comparisons';
+import Conversations from './ConversationPage';
+import Comparisons from './ComparisonPage';
 
 const Routes = () => (
     <Router>
