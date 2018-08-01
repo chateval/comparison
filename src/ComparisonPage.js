@@ -48,7 +48,7 @@ class Comparisons extends Component {
           closeMenuOnSelect={false}
           components={makeAnimated()}
           isMulti
-          placeholder="Models"
+          placeholder="Select Models"
           options={this.state.model_options}
           onChange={this.handleModelChange}
         />

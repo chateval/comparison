@@ -7,14 +7,14 @@ const axios = require('axios');
 class Conversations extends Component {
   constructor(props) {
     super(props)
-    this.getTurns = this.getTurns.bind(this);
     this.handleEvaluationDatasetChange = this.handleEvaluationDatasetChange.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
 
     this.state = {
       all_models: [],
       current_models: new Set(),
-      prompts: [],
+      turns: [],
+      prompts: []
     }
   }
 
@@ -36,35 +36,42 @@ class Conversations extends Component {
 
       this.setState({'options': options})
     });
-
-    axios.get(process.env.REACT_APP_API_LOCATION + '/prompts?evalset=' + this.state.evalset).then(response => {
-      this.setState({'prompts': response.data.prompts})
-    });
-  }
-
-  getTurns() {
-    const turns = [{
-      "prompt": {
-        "text": "yo"
-      },
-      "responses": [{
-        "model": {
-          "id": 1,
-          "name": "Test Model"
-        },
-        "text": "sup"
-      }]
-    }];
-
-    return turns;
   }
 
   handleEvaluationDatasetChange = (selectedOption) => {
     this.setState({ evalset: selectedOption.value });
+
+    axios.get(process.env.REACT_APP_API_LOCATION + '/prompts?evalset=' + selectedOption.value).then(response => {
+      this.setState({ prompts: response.data.prompts });
+      this.setTurns([]);
+    });
   }
 
-  handleModelChange = (options) => {
-    this.setState({ current_models: options })
+  handleModelChange = (models) => {
+    this.setState({ current_models: models });
+    this.setTurns(models);
+  }
+
+  setTurns(models) {
+    let turns = [];
+
+    this.state.prompts.forEach(prompt => {
+      let turn = { prompt: prompt.prompt_text, responses: [] };
+      turns.push(turn);  
+      this.setState({ turns });
+    });
+
+    for (let i = 0; i < models.length; i += 1) {
+      const model = { name: models[i].label, model_id: models[i].value }
+      const route = process.env.REACT_APP_API_LOCATION + '/responses?evalset=' + this.state.evalset + '&model_id=' + models[i].value;
+      axios.get(route).then(response => {
+        for (let j = 0; j < response.data.responses.length; j += 1) {
+          turns[j].responses.push({ model, text: response.data.responses[j].response_text });
+        }
+        console.log(turns);
+        this.setState({ turns });
+      });
+    }
   }
 
   render() {
@@ -75,7 +82,7 @@ class Conversations extends Component {
           closeMenuOnSelect={false}
           components={makeAnimated()}
           isMulti
-          placeholder="Models"
+          placeholder="Select Models"
           options={this.state.model_options}
           onChange={this.handleModelChange}
         />
@@ -101,13 +108,13 @@ class Conversations extends Component {
           <div className="column">
             <Select 
               options={this.state.options} 
-              placeholder="Evaluation Dataset"
+              placeholder="Select Evaluation Dataset"
               className="vmargin"
               onChange={this.handleEvaluationDatasetChange}
             />
             <br />
             <div className="columns is-multiline">
-              {this.getTurns().map(turn => <Turn turn={turn} />)}
+              {this.state.turns.map(turn => <Turn turn={turn} />)}
             </div>
           </div>
         </div>
