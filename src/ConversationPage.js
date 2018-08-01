@@ -78,15 +78,6 @@ class Conversations extends Component {
     return (
       <div className="container">
         <br />
-        <Select
-          closeMenuOnSelect={false}
-          components={makeAnimated()}
-          isMulti
-          placeholder="Select Models"
-          options={this.state.model_options}
-          onChange={this.handleModelChange}
-        />
-        <br />
         <div className="tabs is-boxed">
           <ul>
             <li>
@@ -111,6 +102,14 @@ class Conversations extends Component {
               placeholder="Select Evaluation Dataset"
               className="vmargin"
               onChange={this.handleEvaluationDatasetChange}
+            />
+           <Select
+              closeMenuOnSelect={false}
+              components={makeAnimated()}
+              isMulti
+              placeholder="Select Models"
+              options={this.state.model_options}
+              onChange={this.handleModelChange}
             />
             <br />
             <div className="columns is-multiline">
