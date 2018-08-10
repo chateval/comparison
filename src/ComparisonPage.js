@@ -25,15 +25,24 @@ class Comparisons extends Component {
 
       this.setState({'model_options': options})
     });
+
+    axios.get(process.env.REACT_APP_API_LOCATION + '/evaluationdatasets').then(response => {
+      let options = [];
+      response.data.evaluationdatasets.forEach(evalset => {
+        options.push({ 'value': evalset.evalset_id, 'label': evalset.name})
+      });
+
+      this.setState({'options': options})
+    });
   }
 
   handleEvaluationDatasetChange = (selectedOption) => {
     this.setState({ evalset: selectedOption.value });
+
   }
 
   handleModelChange = (options) => {
     this.setState({ current_models: options });
-    console.log(this.state.current_models)
   }
 
   render() {
@@ -43,15 +52,6 @@ class Comparisons extends Component {
 
     return (
       <div className="container">
-        <br />
-        <Select
-          closeMenuOnSelect={false}
-          components={makeAnimated()}
-          isMulti
-          placeholder="Select Models"
-          options={this.state.model_options}
-          onChange={this.handleModelChange}
-        />
         <br />
         <div className="tabs is-boxed">
           <ul>
@@ -71,6 +71,15 @@ class Comparisons extends Component {
         </div>
         <div className="columns">
           <div className="column">
+           <Select
+              closeMenuOnSelect={false}
+              components={makeAnimated()}
+              isMulti
+              placeholder="Select Models"
+              options={this.state.model_options}
+              onChange={this.handleModelChange}
+            />
+            <br />
             <div className="columns is-multiline">
               {AutomaticEvaluations}
             </div>
